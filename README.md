@@ -34,8 +34,6 @@ README.md
 
 ## Запуск
 
-Из каталога, содержащего пакет `company_db`:
-
 ```bash
 python -m src.db
 ```
