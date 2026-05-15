@@ -37,5 +37,5 @@ README.md
 Из каталога, содержащего пакет `company_db`:
 
 ```bash
-python -m company_db
+python -m src.db
 ```
