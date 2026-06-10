@@ -66,13 +66,5 @@ python -m src.db
 ## Запуск тестов
 
 ```bash
-python -m unittest discover -s tests -v
-```
-
-Проверка покрытия без модуля текстового интерфейса:
-
-```bash
-python -m pip install coverage
-python -m coverage run --source=src.db.backend -m unittest discover -s tests
-python -m coverage report
+pytest --cov=src --cov-report=term-missing
 ```
