@@ -31,7 +31,10 @@ class Table:
         name = name.strip()
         position = position.strip()
         department = department.strip()
-        salary = float(salary)
+        try:
+            salary = float(salary)
+        except (TypeError, ValueError):
+            raise InvalidEmployeeDataError("Зарплата должна быть числом.")
 
         if not name:
             raise InvalidEmployeeDataError(
@@ -106,7 +109,12 @@ class Table:
                 record.department = department.strip()
 
             if salary is not None:
-                salary = float(salary)
+                try:
+                    salary = float(salary)
+                except (TypeError, ValueError):
+                    raise InvalidEmployeeDataError(
+                        "Зарплата должна быть числом."
+                    )
                 if salary < 0:
                     raise InvalidEmployeeDataError(
                         "Зарплата не может быть отрицательной."

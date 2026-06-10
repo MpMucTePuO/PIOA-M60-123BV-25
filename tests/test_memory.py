@@ -65,6 +65,11 @@ class TestMemory(unittest.TestCase):
                 InvalidEmployeeDataError,
                 "Зарплата не может быть отрицательной.",
             ),
+            (
+                (1, "Иван", "Разработчик", "ИТ", "много"),
+                InvalidEmployeeDataError,
+                "Зарплата должна быть числом.",
+            ),
         ]
 
         for data, error, message in cases:
@@ -134,6 +139,7 @@ class TestMemory(unittest.TestCase):
             ({"name": ""}, "Имя сотрудника не может быть пустым."),
             ({"position": " "}, "Должность не может быть пустой."),
             ({"salary": -100}, "Зарплата не может быть отрицательной."),
+            ({"salary": "много"}, "Зарплата должна быть числом."),
         ]
 
         for fields, message in cases:
