@@ -1,6 +1,11 @@
-from .backend.memory import database
+from .backend.database import Database
+from .backend.errors import DatabaseError
+from .backend.file import FileDatabase
+from .backend.memory import Memory
 from .backend.record import Record
-from .backend.errors import EmployeeTableError
+
+
+database: Database = Memory()
 
 
 def _read_int(prompt: str) -> int:
@@ -77,7 +82,7 @@ def _add_employee() -> None:
                 )
             ]
         )
-    except EmployeeTableError as error:
+    except DatabaseError as error:
         print(f"Ошибка: {error}")
 
 
@@ -109,7 +114,7 @@ def _update_employee() -> None:
             employee_id, name, position, department, salary
         )
         _print_employees([record])
-    except EmployeeTableError as error:
+    except DatabaseError as error:
         print(f"Ошибка: {error}")
 
 
@@ -118,11 +123,27 @@ def _delete_employee() -> None:
     employee_id = _read_int("ID сотрудника для удаления: ")
     try:
         _print_employees([database.delete_employee(employee_id)])
-    except EmployeeTableError as error:
+    except DatabaseError as error:
         print(f"Ошибка: {error}")
 
 
 def run() -> None:
+    global database
+
+    print("Выберите тип базы данных:")
+    print("1. Оперативная память")
+    print("2. Файловая база данных")
+    choice = input("Введите номер: ").strip()
+
+    try:
+        if choice == "2":
+            database = FileDatabase()
+        else:
+            database = Memory()
+    except DatabaseError as error:
+        print(f"Ошибка: {error}")
+        return
+
     actions = {
         "1": _add_employee,
         "2": _find_employees,

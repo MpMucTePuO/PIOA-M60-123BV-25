@@ -1,4 +1,8 @@
-class EmployeeTableError(Exception):
+class DatabaseError(Exception):
+    pass
+
+
+class EmployeeTableError(DatabaseError):
     pass
 
 
@@ -11,4 +15,12 @@ class DuplicateEmployeeError(EmployeeTableError):
 
 
 class EmployeeNotFoundError(EmployeeTableError):
+    pass
+
+
+class FileDatabaseError(DatabaseError):
+    pass
+
+
+class InvalidStorageDataError(FileDatabaseError):
     pass

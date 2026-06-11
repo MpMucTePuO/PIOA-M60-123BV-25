@@ -70,6 +70,26 @@ class TestMemory(unittest.TestCase):
                 InvalidEmployeeDataError,
                 "Зарплата должна быть числом.",
             ),
+            (
+                ("один", "Иван", "Разработчик", "ИТ", 50000),
+                InvalidEmployeeDataError,
+                "ID должен быть целым числом.",
+            ),
+            (
+                (1, None, "Разработчик", "ИТ", 50000),
+                InvalidEmployeeDataError,
+                "Имя сотрудника должно быть строкой.",
+            ),
+            (
+                (1, "Иван", None, "ИТ", 50000),
+                InvalidEmployeeDataError,
+                "Должность должна быть строкой.",
+            ),
+            (
+                (1, "Иван", "Разработчик", None, 50000),
+                InvalidEmployeeDataError,
+                "Отдел должен быть строкой.",
+            ),
         ]
 
         for data, error, message in cases:
@@ -140,6 +160,9 @@ class TestMemory(unittest.TestCase):
             ({"position": " "}, "Должность не может быть пустой."),
             ({"salary": -100}, "Зарплата не может быть отрицательной."),
             ({"salary": "много"}, "Зарплата должна быть числом."),
+            ({"name": 10}, "Имя сотрудника должно быть строкой."),
+            ({"position": 10}, "Должность должна быть строкой."),
+            ({"department": 10}, "Отдел должен быть строкой."),
         ]
 
         for fields, message in cases:
@@ -147,6 +170,15 @@ class TestMemory(unittest.TestCase):
                 with self.assertRaises(InvalidEmployeeDataError) as context:
                     self.memory.update_employee(1, **fields)
                 self.assertEqual(str(context.exception), message)
+
+    def test_select_employee_incorrect_salary(self):
+        with self.assertRaises(InvalidEmployeeDataError) as context:
+            self.memory.select_employees(min_salary="много")
+
+        self.assertEqual(
+            str(context.exception),
+            "Значение зарплаты для поиска должно быть числом.",
+        )
 
     def test_update_employee_not_found(self):
         with self.assertRaises(EmployeeNotFoundError) as context:

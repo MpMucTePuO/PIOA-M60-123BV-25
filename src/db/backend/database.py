@@ -1,12 +1,10 @@
-from .database import Database
+from abc import ABC, abstractmethod
+
 from .record import Record
-from .table import Table
 
 
-class Memory(Database):
-    def __init__(self):
-        self.employees = Table("employees")
-
+class Database(ABC):
+    @abstractmethod
     def create_employee(
         self,
         employee_id: int,
@@ -15,10 +13,9 @@ class Memory(Database):
         department: str,
         salary: float,
     ) -> Record:
-        return self.employees.create(
-            employee_id, name, position, department, salary
-        )
+        pass
 
+    @abstractmethod
     def select_employees(
         self,
         employee_id: int | None = None,
@@ -28,15 +25,9 @@ class Memory(Database):
         min_salary: float | None = None,
         max_salary: float | None = None,
     ) -> list[Record]:
-        return self.employees.select(
-            employee_id,
-            name,
-            position,
-            department,
-            min_salary,
-            max_salary,
-        )
+        pass
 
+    @abstractmethod
     def update_employee(
         self,
         employee_id: int,
@@ -45,12 +36,8 @@ class Memory(Database):
         department: str | None = None,
         salary: float | None = None,
     ) -> Record:
-        return self.employees.update(
-            employee_id, name, position, department, salary
-        )
+        pass
 
+    @abstractmethod
     def delete_employee(self, employee_id: int) -> Record:
-        return self.employees.delete(employee_id)
-
-
-database = Memory()
+        pass
