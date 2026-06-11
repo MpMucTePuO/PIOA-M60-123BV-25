@@ -41,23 +41,6 @@ tests/
 `create_employee`, `select_employees`, `update_employee` и
 `delete_employee`.
 
-## Формат файла
-
-Файловая база хранит структуру таблицы и записи в формате JSON:
-
-```json
-{
-  "columns": [
-    "employee_id",
-    "name",
-    "position",
-    "department",
-    "salary"
-  ],
-  "records": []
-}
-```
-
 При повреждённом JSON, неправильной структуре файла или ошибке чтения и
 записи программа вызывает пользовательское исключение с понятным сообщением.
 

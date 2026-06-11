@@ -130,19 +130,25 @@ def _delete_employee() -> None:
 def run() -> None:
     global database
 
-    print("Выберите тип базы данных:")
-    print("1. Оперативная память")
-    print("2. Файловая база данных")
-    choice = input("Введите номер: ").strip()
+    while True:
+        print("Выберите тип базы данных:")
+        print("1. Оперативная память")
+        print("2. Файловая база данных")
+        choice = input("Введите номер: ").strip()
 
-    try:
-        if choice == "2":
-            database = FileDatabase()
-        else:
-            database = Memory()
-    except DatabaseError as error:
-        print(f"Ошибка: {error}")
-        return
+        if choice not in {"1", "2"}:
+            print("Неверный ввод. Выберите 1 или 2.")
+            continue
+
+        try:
+            if choice == "2":
+                database = FileDatabase()
+            else:
+                database = Memory()
+            break
+        except DatabaseError as error:
+            print(f"Ошибка: {error}")
+            return
 
     actions = {
         "1": _add_employee,
